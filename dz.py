@@ -1,6 +1,7 @@
 import databases, sqlalchemy
 from fastapi import FastAPI
 from datetime import date
+from dzms import *
 
 app = FastAPI()
 
@@ -39,6 +40,9 @@ users = sqlalchemy.Table(
 
 engine = sqlalchemy.create_engine(DATABASE_URL)
 metadata.create_all(engine)
+
+
+
 
 @app.on_event("startup")
 async def startup():
