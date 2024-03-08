@@ -79,9 +79,11 @@ async def createware(ware: Ware):
 
 @app.get("/fares/{count}")
 async def makeware(count: int):
-    wares = ["Микромодули", "Продовольствие", "Медикаменты", "Техника", "Роскошь", "Минералы", "Алкоголь", "Оружие", "Наркотики"]
+    wareslist = ["Микромодули", "Продовольствие", "Медикаменты", "Техника", "Роскошь", "Минералы", "Алкоголь", "Оружие", "Наркотики"]
     for i in range(count):
-        fname = wares[i]
+        print(wares.c.name)
+        key = random.randint(0, len(wareslist)-1)
+        fname = wareslist[key]
         fdesc = "A qualified ware. Buy it."
         fprice = random.randint(0, 500)
         # lastid = await database.execute(query)
@@ -98,6 +100,6 @@ async def createorder(order: Order):
 
 @app.put("/orders/{uid}", response_model=Order)
 async def updorder(uid: int, userlist: User):
-    query = orders.update().where(orders.c.uid == uid).values(**users.dict())
+    query = orders.update().where(orders.c.uid == uid).values(**userlist.dict())
     await database.execute(query)
-    return {**users.dict, "id": uid}
+    return {**users.dict(), "id": uid}
