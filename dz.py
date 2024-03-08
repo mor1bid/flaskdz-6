@@ -60,35 +60,26 @@ async def createuser(user: User):
     return {**users.dict(), "id": lastid}
 
 @app.get("/fakers/{count}")
-async def create_note(count: int):
+async def makeuser(count: int):
     for i in range(count):
         fname = fake.first_name()
         fsur = fake.last_name()
         fmail = fake.unique.email()
         fword = fake.unique.password()
-        query = wares.insert().values(name=fname, surname=fsur, email=fmail, password=fword)
+        query = users.insert().values(name=fname, surname=fsur, email=fmail, password=fword)
         await database.execute(query)
     return {'message': f'{count} fake users create'}
 
 @app.post("/wares/", response_model=Ware)
-async def createuser(ware: Ware):
+async def createware(ware: Ware):
     query = wares.insert().values(name=ware.name, description=ware.description, price=ware.price)
     query = wares.insert().values(**wares.dict())
     lastid = await database.execute(query)
     return {**wares.dict(), "id": lastid}
 
 @app.get("/fares/{count}")
-async def create_note(count: int):
-    wares = {
-        1: "Продовольствие",
-        2: "Медикаменты",
-        3: "Техника",
-        4: "Роскошь",
-        5: "Минералы",
-        6: "Алкоголь",
-        7: "Оружие",
-        2: "Наркотики",
-    }
+async def makeware(count: int):
+    wares = ["Микромодули", "Продовольствие", "Медикаменты", "Техника", "Роскошь", "Минералы", "Алкоголь", "Оружие", "Наркотики"]
     for i in range(count):
         fname = wares[i]
         fdesc = "A qualified ware. Buy it."
@@ -99,8 +90,14 @@ async def create_note(count: int):
     return {'message': f'{count} fake users create'}
 
 @app.post("/orders/", response_model=Order)
-async def createuser(order: Order):
+async def createorder(order: Order):
     query = orders.insert().values(uid=order.uid, wid=order.wid, date=order.date, status=order.status)
     query = orders.insert().values(**orders.dict())
     lastid = await database.execute(query)
     return {**orders.dict(), "id": lastid}
+
+@app.put("/orders/{uid}", response_model=Order)
+async def updorder(uid: int, userlist: User):
+    query = orders.update().where(orders.c.uid == uid).values(**users.dict())
+    await database.execute(query)
+    return {**users.dict, "id": uid}

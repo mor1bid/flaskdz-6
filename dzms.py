@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field
-import sqlalchemy
 
 class Ware(BaseModel):
     id: int = Field(title="id", max_length=3)
