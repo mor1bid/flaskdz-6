@@ -11,7 +11,7 @@ class Order(BaseModel):
     id: int = Field(title="id", max_length=3)
     uid: int = Field(title="uid", max_length=3)
     wid: int = Field(title="wid", max_length=3)
-    date: sqlalchemy.Date = Field(title="date")
+    date: str = Field(title="date")
     status: str = Field(title="status")
 
 class User(BaseModel):
